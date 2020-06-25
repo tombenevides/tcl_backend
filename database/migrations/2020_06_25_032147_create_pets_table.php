@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePetsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('pet', function (Blueprint $table) {
+            $table->increments('pet_id');
+            $table->string('name');
+            $table->unsignedInteger('breed_id');
+            $table->foreign('breed_id')
+                ->references('breed_id')
+                ->on('breed');
+            $table->string('color');
+            $table->char('gender', 1);
+            $table->boolean('myPet')->default(false);
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')
+                ->references('user_id')
+                ->on('user');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('pet');
+    }
+}
